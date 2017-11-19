@@ -1,6 +1,14 @@
-var express = require("express");
-const app = express()
-var PORT = process.env.PORT || 3000;
-app.get('/', (req, res) => res.send('Hello Propigator!'))
+var http = require('http'),
+    fs = require('fs');
 
-app.listen(PORT, () => console.log('Example app listening on port 3000!'))
+
+fs.readFile('./home.html', function (err, html) {
+    if (err) {
+        throw err;
+    }
+    http.createServer(function(request, response) {
+        response.writeHeader(200, {"Content-Type": "text/html"});
+        response.write(html);
+        response.end();
+    }).listen(3000);
+});

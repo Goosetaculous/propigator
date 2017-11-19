@@ -1,10 +1,11 @@
-var express = require("express");
-const app = express();
-var PORT = process.env.PORT || 3000;
 var path = require('path');
+var express = require('express');
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/home.html'));
+var app = express();
+
+app.use(express.static(path.join(__dirname, 'dist')));
+app.set('port', process.env.PORT || 8080);
+
+var server = app.listen(app.get('port'), function() {
+  console.log('listening on port ', server.address().port);
 });
-
-app.listen(PORT);

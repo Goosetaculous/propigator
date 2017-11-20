@@ -1,17 +1,17 @@
 import React, {Component} from "react";
 
 
-class Home extends Component {
+class Signup extends Component {
     constructor() {
         super()
     }
     render() {
         return (
             <div style={{backgroundColor:"white"}}>
-                Home
+                Signup
              </div>
         )
     }
 }
 
-export default Home;
+export default Signup;

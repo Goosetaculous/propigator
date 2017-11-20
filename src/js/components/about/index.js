@@ -1,17 +1,17 @@
 import React, {Component} from "react";
 
 
-class Home extends Component {
+class About extends Component {
     constructor() {
         super()
     }
     render() {
         return (
             <div style={{backgroundColor:"white"}}>
-                Home
+                About
              </div>
         )
     }
 }
 
-export default Home;
+export default About;

@@ -1,5 +1,7 @@
 import React, {Component} from "react";
+import {Link} from 'react-router-dom';
 
+import Header from '../../shared/header';
 
 class Home extends Component {
     constructor() {
@@ -7,9 +9,13 @@ class Home extends Component {
     }
     render() {
         return (
-            <div style={{backgroundColor:"white"}}>
-                Home
-             </div>
+            <div>
+                <Header/>
+                <div style={{
+                    backgroundColor: "yellow"
+                }}>
+                </div>
+            </div>
         )
     }
 }

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom';
+import {AppBar, MenuItem} from "material-ui";
 
 class Header extends Component {
     constructor() {
@@ -7,22 +8,11 @@ class Header extends Component {
     }
     render() {
         return (
-            <div>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/about">About</Link>
-                    </li>
-                    <li>
-                        <Link to="/signup">Sign Up</Link>
-                    </li>
-                    <li>
-                        <Link to="/login">Log in</Link>
-                    </li>
-                </ul>
-            </div>
+            <AppBar title="Propigator" iconClassNameRight="muidocs-icon-navigation-expand-more">
+                <MenuItem linkButton containerElement={<Link to="/login" />} primaryText="Log In" />
+                <MenuItem linkButton containerElement={<Link to="/signup" />} primaryText="Sign Up" />
+                <MenuItem linkButton containerElement={<Link to="/about" />} primaryText="About" />
+            </AppBar>
         )
     }
 }

@@ -16,20 +16,21 @@ const styles = {
 
 class Home extends Component {
     constructor(props) {
-        super(props)
-        this.state = { address: 'Enter address to start' }
+        super(props);
+        this.state = { address: '' };
         this.onChange = (address) => this.setState({ address })
     }
     render() {
         const inputProps = {
             value: this.state.address,
+            placeholder: "Enter address to start",
             onChange: this.onChange,
-          }
+          };
         return (
             <div className="home">
                 <Header/>
                 <div>
-                    <img className="main_img" src="assets/images/bg_main.jpg" />
+                    <img className="main_img" src={require('../../../assets/images/bg_main.jpg')} />
                     <div className="search_wrap">
                         <PlacesAutocomplete inputProps={inputProps} />
                         {/* <TextField style={styles.textRootStyle}

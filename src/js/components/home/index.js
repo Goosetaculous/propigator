@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom';
+import PlacesAutocomplete from 'react-places-autocomplete';
+
 
 import Header from '../../shared/header';
 import TextField from 'material-ui/TextField';
@@ -13,21 +15,28 @@ const styles = {
 };
 
 class Home extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
+        this.state = { address: 'Enter address to start' }
+        this.onChange = (address) => this.setState({ address })
     }
     render() {
+        const inputProps = {
+            value: this.state.address,
+            onChange: this.onChange,
+          }
         return (
             <div className="home">
                 <Header/>
                 <div>
                     <img className="main_img" src="assets/images/bg_main.jpg" />
                     <div className="search_wrap">
-                        <TextField style={styles.textRootStyle}
+                        <PlacesAutocomplete inputProps={inputProps} />
+                        {/* <TextField style={styles.textRootStyle}
                                    underlineStyle={{display: 'none'}}
                                    className="address_search"
                                    type="search"
-                                   hintText="Enter address to start"/>
+                                   hintText="Enter address to start"/> */}
                     </div>
                 </div>
             </div>

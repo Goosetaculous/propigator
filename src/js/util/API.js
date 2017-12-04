@@ -1,10 +1,13 @@
 import axios from "axios";
 
+let BASE_URL = "api.propigator.com";
+
 const API = {
 
-  addUser: (user)=> {
-    return axios.post("/user/add", { user });
+  getAddress: (address, citystatezip)=> {
+    return axios.post(BASE_URL+"/property", { address:address, citystatezip:citystatezip });
   },
 
-}
+};
+
 export default API;

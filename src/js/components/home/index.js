@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import PlacesAutocomplete from 'react-places-autocomplete';
 import FontAwesome from 'react-fontawesome';
-
 import Header from '../../shared/header';
 import RaisedButton from 'material-ui/RaisedButton';
 import {white} from "material-ui";
+import {parseLocation} from 'parse-address';
 
 class Home extends Component {
     constructor(props) {
@@ -16,11 +16,10 @@ class Home extends Component {
     handleClick(address){
         address = address !== undefined ? address : false;
         if (address === false){
-            console.log(this.state.address)
+            address = this.state.address;
         }
-        else {
-            console.log(address)
-        }
+        let parsedAddress =  parseLocation(address);
+        console.log(parsedAddress);
     }
 
     render() {

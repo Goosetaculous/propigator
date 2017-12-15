@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "heroku-postbuild": "webpack -p",
-    "dev-webpack": "webpack-dev-server",
+    "dev-webpack": "set NODE_ENV=development && webpack-dev-server",
     "dev-server": "webpack && node server.js"
   },
   "repository": {

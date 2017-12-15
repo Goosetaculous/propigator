@@ -1,5 +1,6 @@
 const axios = require('axios')
-var url = 'http://api.propigator.com';
+var url = process.env.NODE_ENV != production ? 'http://api.propigator.com': 'http://127.0.0.1:3000/';
+
 var axiosInstance = axios.create({
     baseURL: url
 });

@@ -1,11 +1,11 @@
 import axios from "axios";
 
-let BASE_URL = "api.propigator.com";
+// let BASE_URL = process.env.PROPIGATOR_API_ADDRESS;
 
 const API = {
 
   getAddress: (address, citystatezip)=> {
-    return axios.post(BASE_URL+"/property", { address:address, citystatezip:citystatezip });
+    return axios.post("http://api.propigator.com/property", { address:address, citystatezip:citystatezip });
   },
 
 };

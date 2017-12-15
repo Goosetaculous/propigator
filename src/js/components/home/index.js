@@ -3,8 +3,8 @@ import PlacesAutocomplete from 'react-places-autocomplete';
 import FontAwesome from 'react-fontawesome';
 import Header from '../../shared/header';
 import RaisedButton from 'material-ui/RaisedButton';
-import {white} from "material-ui";
 import {parseLocation} from 'parse-address';
+import API from '../../util/API'
 
 class Home extends Component {
     constructor(props) {
@@ -20,6 +20,13 @@ class Home extends Component {
         }
         let parsedAddress =  parseLocation(address);
         console.log(parsedAddress);
+        let addressParts = [parsedAddress.number, parsedAddress.street, parsedAddress.type];
+        let str_address = addressParts.join(" ");
+        let citystatezip = parsedAddress.zip || parsedAddress.city + ",+" + parsedAddress.state;
+        API.getAddress(str_address, citystatezip)
+            .then(function (response) {
+            console.log(response);
+        })
     }
 
     render() {

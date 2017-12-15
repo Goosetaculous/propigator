@@ -1,12 +1,9 @@
-var client = require('./baseurl')
-import axios from "axios";
-
-// let BASE_URL = process.env.PROPIGATOR_API_ADDRESS;
+var client = require('./baseurl');
 
 const API = {
 
   getAddress: (address, citystatezip)=> {
-    return axios.post("http://api.propigator.com/property", { address:address, citystatezip:citystatezip });
+    return client.post("/property", { address:address, citystatezip:citystatezip });
   },
 
 };

@@ -5,6 +5,7 @@ import Header from '../../shared/header';
 import RaisedButton from 'material-ui/RaisedButton';
 import {parseLocation} from 'parse-address';
 import API from '../../util/API'
+import { withRouter } from 'react-router-dom';
 
 class Home extends Component {
     constructor(props) {
@@ -13,19 +14,36 @@ class Home extends Component {
         this.onChange = (address) => this.setState({ address })
     }
 
+    getAddressParams(parsedAddress){
+        let addressParts = [parsedAddress.number, parsedAddress.street, parsedAddress.type];
+        let str_address = addressParts.join(" ");
+        if (parsedAddress.city && parsedAddress.state){
+            var citystate = parsedAddress.city + ",+" + parsedAddress.state
+        }
+        else {
+            var citystate = ""
+        }
+        let citystatezip = parsedAddress.zip || citystate;
+        return {address:str_address, citystatezip:citystatezip}
+    }
+
     handleClick(address){
+        const { router } = this.props;
         address = address !== undefined ? address : false;
         if (address === false){
             address = this.state.address;
         }
         let parsedAddress =  parseLocation(address);
-        console.log(parsedAddress);
-        let addressParts = [parsedAddress.number, parsedAddress.street, parsedAddress.type];
-        let str_address = addressParts.join(" ");
-        let citystatezip = parsedAddress.zip || parsedAddress.city + ",+" + parsedAddress.state;
-        API.getAddress(str_address, citystatezip)
-            .then(function (response) {
+        let params = this.getAddressParams(parsedAddress);
+
+        API.getAddress(params)
+            .then(response => {
             console.log(response);
+            router.push('/property')
+        })
+            .catch(error => {
+            console.log(error.response)
+
         })
     }
 
@@ -52,4 +70,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default withRouter(Home);

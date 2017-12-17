@@ -29,6 +29,14 @@ class Property extends Component {
             slidesToShow: 1,
             slidesToScroll: 1
         };
+        if (state.data.images){
+            var propertyImages = state.data.images.map(function(name, index){
+                return <div key={index}><img src={ name } /></div>;
+            })
+        }
+        else {
+            var propertyImages = undefined
+        }
         const MyMapComponent = compose(
             withProps({
                 googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCnm70-HPqpQXoNXGMP8g-d-7Y3OXutRoQ&v=3.exp&libraries=geometry,drawing,places",
@@ -84,9 +92,7 @@ class Property extends Component {
                             />
                             <CardMedia>
                                 <Slider {...slickSettings}>
-                                    {state.data.images.map(function(name, index){
-                                        return <div key={index}><img src={ name } /></div>;
-                                    })}
+                                    {propertyImages}
                                 </Slider>
                                 <MyMapComponent key="map" />
                             </CardMedia>

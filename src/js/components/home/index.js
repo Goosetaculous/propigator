@@ -42,7 +42,11 @@ class Home extends Component {
         API.getAddress(params)
             .then(response => {
             console.log(response);
-            this.props.router.push('/property');
+            this.props.history.push({
+                pathname: '/property',
+                state: {
+                    data: response.data
+                }});
         })
             .catch(error => {
             console.log(error.response)
@@ -62,7 +66,7 @@ class Home extends Component {
                 <div>
                     <img className="main_img" src={require('../../../assets/images/bg_main.jpg')} />
                     <div className="search_wrap">
-                        <PlacesAutocomplete inputProps={inputProps} onEnterKeyDown={this.handleClick} />
+                        <PlacesAutocomplete inputProps={inputProps} onEnterKeyDown={() => this.handleClick} />
                         <RaisedButton style={{minWidth:"none"}}  className="search_button" primary={true} onClick={() => this.handleClick()}>
                             <FontAwesome name="search" inverse={true}/>
                         </RaisedButton>

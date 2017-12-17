@@ -27,6 +27,18 @@ body {
     max-width: 300px;
     text-align: center;
 }
+.property_wrap {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 44px;
+    text-align: center;
+}
+.slick-slide img {
+    display: inline-block;
+}
 
 #PlacesAutocomplete__root input {
     border: none;

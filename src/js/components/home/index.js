@@ -15,6 +15,7 @@ class Home extends Component {
     }
 
     getAddressParams(parsedAddress){
+        console.log(parsedAddress);
         let addressParts = [parsedAddress.number, parsedAddress.street, parsedAddress.type];
         let str_address = addressParts.join(" ");
         if (parsedAddress.city && parsedAddress.state){
@@ -28,10 +29,12 @@ class Home extends Component {
     }
 
     handleClick(address){
-        const { router } = this.props;
         address = address !== undefined ? address : false;
         if (address === false){
             address = this.state.address;
+        }
+        if (!address){
+            return
         }
         let parsedAddress =  parseLocation(address);
         let params = this.getAddressParams(parsedAddress);
@@ -39,7 +42,7 @@ class Home extends Component {
         API.getAddress(params)
             .then(response => {
             console.log(response);
-            router.push('/property')
+            this.props.router.push('/property');
         })
             .catch(error => {
             console.log(error.response)
@@ -50,7 +53,7 @@ class Home extends Component {
     render() {
         const inputProps = {
             value: this.state.address,
-            placeholder: "Enter address to start",
+            placeholder: "Enter your home address, city or zip",
             onChange: this.onChange,
           };
         return (

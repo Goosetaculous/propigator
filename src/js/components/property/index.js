@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Header from '../../shared/header';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import { withRouter } from 'react-router-dom';
 
 class Property extends Component {
     constructor(props) {
@@ -42,4 +43,4 @@ class Property extends Component {
     }
 }
 
-export default Property;
+export default withRouter(Property);

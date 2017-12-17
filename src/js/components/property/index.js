@@ -64,7 +64,7 @@ class Property extends Component {
         )(props =>
             <GoogleMap
                 defaultOptions={{
-                    scrollwheel: false,
+                    gestureHandling: 'cooperative',
                 }}
                 defaultCenter={{ lat: state.data.lat, lng: state.data.lng }}
                 zoom={props.zoom}

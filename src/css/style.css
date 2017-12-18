@@ -24,7 +24,7 @@ body {
     transform: translate(-50%, -50%);
     width: 75%;
     height: 44px;
-    max-width: 300px;
+    max-width: 400px;
     text-align: center;
 }
 .property_wrap {
@@ -32,7 +32,7 @@ body {
     top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 75%;
+    width: 85%;
     height: 44px;
     text-align: center;
 }
@@ -60,4 +60,74 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 20px;
+}
+
+a.appbar_menuitem div{
+    color: white;
+    margin-top: 10px;
+}
+
+.prop-right-column {
+    display: inline-block;
+    width: 55%;
+    height: 600px;
+    padding:15px;
+    vertical-align: top;
+}
+
+.prop-left-column {
+    display: inline-block;
+    width: 35%;
+    padding:15px;
+    vertical-align: top;
+}
+
+.slick-prev {
+    left: 15px;
+    z-index: 1;
+}
+.slick-next {
+    right: 15px;
+    z-index: 1;
+}
+
+.slick-slide, .slick-slide img {
+    height: 500px;
+}
+
+.prop-description{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+table {
+    border-spacing: 0;
+    margin-top:5px;
+}
+th, td {
+    border: 1px solid #00000057;
+    padding: 0.5em 1em;
+}
+tbody:first-child tr:first-child td:first-child {
+    border-top-left-radius: 0.6em;
+}
+tbody:first-child tr:first-child td:last-child {
+    border-top-right-radius: 0.6em;
+}
+
+tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0.6em;
+}
+tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0.6em;
+}
+
+tr + tr td {
+    border-top: 1px;
+}
+
+tr th + th,
+tr td + td {
+    border-left: 0;
 }

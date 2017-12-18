@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = { address: '' };
+        this.state = {address: ''};
         this.onChange = (address) => this.setState({ address })
     }
 
@@ -30,6 +30,7 @@ class Home extends Component {
 
     handleClick(address){
         address = address !== undefined ? address : false;
+        console.log(address);
         if (address === false){
             address = this.state.address;
         }
@@ -66,7 +67,7 @@ class Home extends Component {
                 <div>
                     <img className="main_img" src={require('../../../assets/images/bg_main.jpg')} />
                     <div className="search_wrap">
-                        <PlacesAutocomplete inputProps={inputProps} onEnterKeyDown={() => this.handleClick} />
+                        <PlacesAutocomplete inputProps={inputProps} onEnterKeyDown={() => this.handleClick()} />
                         <RaisedButton style={{minWidth:"none"}}  className="search_button" primary={true} onClick={() => this.handleClick()}>
                             <FontAwesome name="search" inverse={true}/>
                         </RaisedButton>

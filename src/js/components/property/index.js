@@ -41,7 +41,7 @@ class Property extends Component {
             withProps({
                 googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCnm70-HPqpQXoNXGMP8g-d-7Y3OXutRoQ&v=3.exp&libraries=geometry,drawing,places",
                 loadingElement: <div style={{ height: `100%` }} />,
-                containerElement: <div style={{ height: `400px` }} />,
+                containerElement: <div style={{ height: `200px` }} />,
                 mapElement: <div style={{ height: `100%` }} />,
             }),
             withState('zoom', 'onZoomChange', 15),
@@ -78,7 +78,9 @@ class Property extends Component {
                 </Marker>
             </GoogleMap>
         );
-
+        let closeImg = {cursor:'pointer', float:'right', marginTop: '5px', width: '20px'};
+        let estimate = parseFloat(state.data.estimate || state.data.estimate_from_tax);
+        let instant_estimate = parseFloat(estimate * 0.75);
         return (
             <div className="home">
                 <Header/>
@@ -86,24 +88,48 @@ class Property extends Component {
                     <img className="main_img" src={require('../../../assets/images/bg_main.jpg')} />
                     <div className="property_wrap">
                         <Card>
-                            <CardHeader
-                                title={state.data.address}
-                                subtitle={state.data.bedrooms + " bd " + state.data.bathrooms + " bth "}
-                            />
+                            <CardHeader style={{textAlign:"left", padding: "16px 10px 0 32px"}} titleStyle={{fontSize:"25px"}} title={state.data.address}>
+                                <a href="/" style={{display:"inline-block", float: "right"}}>
+                                    <img src='https://d30y9cdsu7xlg0.cloudfront.net/png/53504-200.png' style={closeImg}/>
+                                </a>
+                            </CardHeader>
                             <CardMedia>
-                                <Slider {...slickSettings}>
-                                    {propertyImages}
-                                </Slider>
-                                <MyMapComponent key="map" />
+                                <div className="media_content">
+                                    <div className="prop-left-column">
+                                        <MyMapComponent key="map" />
+                                        <table width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td>{state.data.bedrooms}<br/>Beds</td>
+                                                    <td>{state.data.bathrooms}<br/>Baths</td>
+                                                    <td>$ {estimate.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}<br/>Est. Offer</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{state.data.sqft}<br/>Sq Foot</td>
+                                                    <td>{state.data.yrBuilt}<br/>Year Built</td>
+                                                    <td>$ {instant_estimate.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}<br/>Instant Offer</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <CardText>
+                                            <h3>Description</h3>
+                                            <div className="prop-description">
+                                                {state.data.description}
+                                            </div>
+                                        </CardText>
+                                        <CardActions>
+                                            <CardText>Is this your property?</CardText>
+                                            <FlatButton style={{backgroundColor:"#00bcd4", color:"white"}} labelStyle={{textTransform:'lowercase'}} label="yes, that's right" />
+                                            <FlatButton style={{backgroundColor:"#00bcd4", color:"white"}} labelStyle={{textTransform:'lowercase'}} label="fix address" onClick={() => this.props.history.goBack()} />
+                                        </CardActions>
+                                    </div>
+                                    <div className="prop-right-column">
+                                        <Slider {...slickSettings}>
+                                            {propertyImages}
+                                        </Slider>
+                                    </div>
+                                </div>
                             </CardMedia>
-                            <CardTitle title="Description"/>
-                            <CardText>
-                                {state.data.description}
-                            </CardText>
-                            <CardActions>
-                                <FlatButton label="Get Offer" />
-                                <FlatButton label="New Search" />
-                            </CardActions>
                         </Card>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import PlacesAutocomplete from 'react-places-autocomplete';
 import FontAwesome from 'react-fontawesome';
 import Header from '../../shared/header';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
 import {parseLocation} from 'parse-address';
 import API from '../../util/API'
 import { withRouter } from 'react-router-dom';
@@ -10,7 +11,11 @@ import { withRouter } from 'react-router-dom';
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {address: ''};
+        this.state = {
+            address: '',
+            loading: false,
+            failed: false
+        };
         this.onChange = (address) => this.setState({ address })
     }
 
@@ -40,19 +45,33 @@ class Home extends Component {
         let parsedAddress =  parseLocation(address);
         let params = this.getAddressParams(parsedAddress);
 
-        API.getAddress(params)
-            .then(response => {
-            console.log(response);
-            this.props.history.push({
-                pathname: '/property',
-                state: {
-                    data: response.data
-                }});
-        })
-            .catch(error => {
-            console.log(error.response)
+        this.setState({ loading: true }, () => {
+            API.getAddress(params)
+                .then(response => {
+                    console.log(response);
+                    this.setState({loading: false });
+                    this.props.history.push({
+                        pathname: '/property',
+                        state: {
+                            data: response.data
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    this.setState({
+                        loading: false,
+                        failed: true,
+                        failedMessage: error.response.data
+                    });
 
+                })
         })
+    }
+    handleCloseSnackbar() {
+        console.log("setting failed back to false");
+        this.setState({failed: false});
+
     }
 
     render() {
@@ -67,10 +86,27 @@ class Home extends Component {
                 <div>
                     <img className="main_img" src={require('../../../assets/images/bg_main.jpg')} />
                     <div className="search_wrap">
+
                         <PlacesAutocomplete inputProps={inputProps} onEnterKeyDown={() => this.handleClick()} />
                         <RaisedButton style={{minWidth:"none"}}  className="search_button" primary={true} onClick={() => this.handleClick()}>
-                            <FontAwesome name="search" inverse={true}/>
+                            {
+                                this.state.loading && <FontAwesome name="spinner" className="fa-spin" inverse={true}/>
+                            }
+                            {
+                                !this.state.loading && <FontAwesome name="search" inverse={true}/>
+                            }
+
                         </RaisedButton>
+                        <Snackbar
+                            open={this.state.failed}
+                            message="We were unable to located your home. Please check your spelling."
+                            autoHideDuration={3000}
+                            onRequestClose={() => this.handleCloseSnackbar()}
+                            bodyStyle={{
+                                maxWidth: "700px",
+                                minWidth: "500px"}}
+                        />
+
                     </div>
                 </div>
             </div>

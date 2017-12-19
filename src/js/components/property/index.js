@@ -1,20 +1,58 @@
 import React, {Component} from "react";
 import Header from '../../shared/header';
-import {Card, CardActions, CardHeader, CardText, CardMedia, CardTitle} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { Redirect, withRouter } from 'react-router-dom';
 import Slider from 'react-slick';
-import { compose, withProps, withState, withHandlers } from "recompose";
-import {
-    withScriptjs,
-    withGoogleMap,
-    GoogleMap,
-    Marker,
-} from "react-google-maps";
+import GoogleMapComponent from '../../util/googleMapComponent';
+import FontAwesome from 'react-fontawesome';
 
 class Property extends Component {
     constructor(props) {
         super(props);
+        this.slickSettings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
+        this.styles = {
+            cardCloseImg : {
+                cursor:'pointer',
+                float:'right',
+                marginTop: '5px',
+                width: '20px'
+            },
+            cardHeader: {
+                textAlign:"left",
+                padding: "16px 10px 0 32px"
+            },
+            cardHeaderTitle: {
+                fontSize:"25px"
+            },
+            cardHeaderATag: {
+                display:"inline-block",
+                float: "right"
+            },
+            cardHeaderFA: {
+                color: "#00bcd4"
+            },
+            cardFlatButton: {
+                backgroundColor:"#00bcd4",
+                color:"white"
+            },
+            cardFlatButtonLabel: {
+                textTransform:'lowercase'
+            }
+        }
+    }
+    getImages(images) {
+        if (images){
+            return images.map(function(name, index){
+                return <div key={index}><img src={ name } /></div>;
+            })
+        }
     }
 
     render() {
@@ -22,63 +60,8 @@ class Property extends Component {
         if (!state){
             return <Redirect to='/' />
         }
-        let slickSettings = {
-            dots: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 1,
-            slidesToScroll: 1
-        };
-        if (state.data.images){
-            var propertyImages = state.data.images.map(function(name, index){
-                return <div key={index}><img src={ name } /></div>;
-            })
-        }
-        else {
-            var propertyImages = undefined
-        }
-        const MyMapComponent = compose(
-            withProps({
-                googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCnm70-HPqpQXoNXGMP8g-d-7Y3OXutRoQ&v=3.exp&libraries=geometry,drawing,places",
-                loadingElement: <div style={{ height: `100%` }} />,
-                containerElement: <div style={{ height: `200px` }} />,
-                mapElement: <div style={{ height: `100%` }} />,
-            }),
-            withState('zoom', 'onZoomChange', 15),
-            withHandlers(() => {
-                const refs = {
-                    map: undefined,
-                }
-
-                return {
-                    onMapMounted: () => ref => {
-                        refs.map = ref
-                    },
-                    onZoomChanged: ({ onZoomChange }) => () => {
-                        onZoomChange(refs.map.getZoom())
-                    }
-                }
-            }),
-            withScriptjs,
-            withGoogleMap
-        )(props =>
-            <GoogleMap
-                defaultOptions={{
-                    gestureHandling: 'cooperative',
-                }}
-                defaultCenter={{ lat: state.data.lat, lng: state.data.lng }}
-                zoom={props.zoom}
-                ref={props.onMapMounted}
-                onZoomChanged={props.onZoomChanged}
-            >
-                <Marker
-                    position={{ lat: state.data.lat, lng: state.data.lng }}
-                    onClick={props.onToggleOpen}
-                >
-                </Marker>
-            </GoogleMap>
-        );
-        let closeImg = {cursor:'pointer', float:'right', marginTop: '5px', width: '20px'};
+        let propertyImages = this.getImages(state.data.images);
+        let MapComponent = GoogleMapComponent(state);
         let estimate = parseFloat(state.data.estimate || state.data.estimate_from_tax);
         let instant_estimate = parseFloat(estimate * 0.75);
         return (
@@ -88,15 +71,17 @@ class Property extends Component {
                     <img className="main_img" src={require('../../../assets/images/bg_main.jpg')} />
                     <div className="property_wrap">
                         <Card>
-                            <CardHeader style={{textAlign:"left", padding: "16px 10px 0 32px"}} titleStyle={{fontSize:"25px"}} title={state.data.address}>
-                                <a href="/" style={{display:"inline-block", float: "right"}}>
-                                    <img src='https://d30y9cdsu7xlg0.cloudfront.net/png/53504-200.png' style={closeImg}/>
+                            <CardHeader style={this.styles.cardHeader}
+                                        titleStyle={this.styles.cardHeaderTitle}
+                                        title={state.data.address}>
+                                <a href="/" style={this.styles.cardHeaderATag}>
+                                    <FontAwesome name="times-circle" style={this.styles.cardHeaderFA} />
                                 </a>
                             </CardHeader>
                             <CardMedia>
                                 <div className="media_content">
                                     <div className="prop-left-column">
-                                        <MyMapComponent key="map" />
+                                        <MapComponent key="map" />
                                         <table width="100%">
                                             <tbody>
                                                 <tr>
@@ -119,12 +104,17 @@ class Property extends Component {
                                         </CardText>
                                         <CardActions>
                                             <CardText>Is this your property?</CardText>
-                                            <FlatButton style={{backgroundColor:"#00bcd4", color:"white"}} labelStyle={{textTransform:'lowercase'}} label="yes, that's right" />
-                                            <FlatButton style={{backgroundColor:"#00bcd4", color:"white"}} labelStyle={{textTransform:'lowercase'}} label="fix address" onClick={() => this.props.history.goBack()} />
+                                            <FlatButton style={this.styles.cardFlatButton}
+                                                        labelStyle={this.styles.cardFlatButtonLabel}
+                                                        label="yes, that's right" />
+                                            <FlatButton style={this.styles.cardFlatButton}
+                                                        labelStyle={this.styles.cardFlatButtonLabel}
+                                                        label="fix address"
+                                                        href="/" />
                                         </CardActions>
                                     </div>
                                     <div className="prop-right-column">
-                                        <Slider {...slickSettings}>
+                                        <Slider {...this.slickSettings}>
                                             {propertyImages}
                                         </Slider>
                                     </div>

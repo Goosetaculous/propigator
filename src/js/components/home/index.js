@@ -7,6 +7,7 @@ import Snackbar from 'material-ui/Snackbar';
 import {parseLocation} from 'parse-address';
 import API from '../../util/API'
 import { withRouter } from 'react-router-dom';
+import PropFooter from "../../shared/footer";
 
 class Home extends Component {
     constructor(props) {
@@ -109,6 +110,7 @@ class Home extends Component {
 
                     </div>
                 </div>
+                <PropFooter />
             </div>
         )
     }

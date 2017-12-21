@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Header from '../../shared/header';
+import Footer from "../../shared/footer";
 import {Card, CardActions, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { Redirect, withRouter } from 'react-router-dom';
@@ -123,6 +124,7 @@ class Property extends Component {
                         </Card>
                     </div>
                 </div>
+                <Footer />
             </div>
         )
     }

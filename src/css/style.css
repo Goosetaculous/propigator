@@ -6,7 +6,7 @@ body {
     /*padding: 30px;*/
   }
 
-.home .main_img {
+.main_img {
     width: 100%;
 }
 
@@ -32,6 +32,16 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 85%;
+    height: 44px;
+    text-align: center;
+}
+.login_wrap,
+.signup_wrap,
+.about_wrap {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-45%, -50%);
     height: 44px;
     text-align: center;
 }
